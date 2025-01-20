@@ -1,1 +1,1 @@
-export const SCERET = process.env.SCERET || ""
+export const SCERET = process.env.SCERET

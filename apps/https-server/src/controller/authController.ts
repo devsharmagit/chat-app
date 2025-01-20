@@ -1,4 +1,4 @@
-import { LoginSchema, SignupSchema } from "@repo/common";
+import { LoginSchema, SignupSchema } from "@repo/common/auth";
 import { prismaClient } from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { Request, Response, NextFunction } from "express";
@@ -39,8 +39,8 @@ export const signupController = async (req: Request, res: Response) => {
     });
     if (newUser) {
       res.status(201).json({
-        success: false,
-        message: "something went wrong while creating user",
+        success: true,
+        message: "User created successfully!",
       });
       return;
     } else {
@@ -89,7 +89,9 @@ export const loginController = async (req: Request, res: Response) => {
       });
       return;
     }
-    const token = jwt.sign({userId: user.id,}, SCERET, { expiresIn: "24h" });
+    console.log(process.env.SCERET);
+
+    const token = jwt.sign({userId: user.id,}, process.env.SCERET!, { expiresIn: "24h" });
     res.status(200).json({
       success: true,
       message: "Successfully Logged in!",

@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from "express";
 import cors from "cors";
-import { signupController } from "./controller/authController.js";
+import { loginController, signupController } from "./controller/authController.js";
+import { authMiddleware } from './middleware/authMiddleware.js';
 
 const app = express()
 
@@ -14,7 +17,9 @@ res.json({
 })
 
 app.post("/signup", signupController)
-app.post("/login", signupController)
+app.post("/login", loginController)
+
+app.post("/room", authMiddleware, createRoomController)
 
 app.listen(4400, ()=>{
     console.log("express server is running")

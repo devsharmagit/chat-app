@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import { loginController, signupController } from "./controller/authController.js";
 import { authMiddleware } from './middleware/authMiddleware.js';
+import { createRoomController, getAllMessages } from './controller/roomControllers.js';
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.post("/signup", signupController)
 app.post("/login", loginController)
 
 app.post("/room", authMiddleware, createRoomController)
+app.get("/room/:slug", authMiddleware, getAllMessages)
 
 app.listen(4400, ()=>{
     console.log("express server is running")
